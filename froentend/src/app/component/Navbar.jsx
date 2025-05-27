@@ -91,7 +91,7 @@ useEffect(()=>{
           <Link href={"/"}>
             <img
               className=" lg:w-[240px] w-[175px] md object-cover"
-              src={`${imgurl}/${sitelayout?.logo}`}
+             src={sitelayout?.logo ? `${imgurl}/${sitelayout.logo}` : "/Images/logo-1.webp"}
               width={100}
               height={70}
               alt="Site Logo"

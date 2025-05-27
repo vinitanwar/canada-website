@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { baseurl } from "./common";
 
-
+import Swal from 'sweetalert2';
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -36,42 +36,65 @@ const [faqs,setFaqs]=useState()
     });
   };
 
+
   const handelsendqueery = async (e) => {
-    e.preventDefault();
-    setloader(true)
-    const formData = new URLSearchParams();
-    for (const key in userData) {
-      formData.append(key, userData[key]);
-    }
-  
-    try {
-      const response = await axios.post(
-        "https://sendingmail-3.onrender.com/sendmail",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
+  e.preventDefault();
+  setloader(true);
+
+  const formData = new URLSearchParams();
+  for (const key in userData) {
+    formData.append(key, userData[key]);
+  }
+
+  try {
+    const response = await axios.post(
+      "https://sendingmail-3.onrender.com/sendmail",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    await axios.post(`${baseurl}/sendmessage`, formData);
+
+    // Show success alert
+    await Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Your message has been sent successfully.',
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#3085d6',
+    });
+
+    // Reset form data
+    setUserData({
+      S_name: "",
+      S_email: "",
+      company_name: "",
+      need_service: "",
+      userEmailsir: "Admin@canadawidetaxes.com",
+    });
+
+  } catch (error) {
+    console.error("Error sending data:", error);
+
+    // Show error alert
+    await Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong! Please try again later.',
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#d33',
+    });
+  }
+
+  setloader(false);
+  setIsModalOpen(false);
+};
 
 
-      await axios.post(`${baseurl}/sendmessage`,formData)
-      setUserData({
-        S_name: "",
-        S_email: "",
-       company_name: "",
-        need_service: "",
-       userEmailsir:"Admin@canadawidetaxes.com"
-      })
-
-    
-    } catch (error) {
-      console.error("Error sending data:", error);
-    }
-    setloader(false)
-    setIsModalOpen(false)
-  };
   
 const fetchfaq=async()=>{
   const response= await axios.get(`${baseurl}/getfaq`)

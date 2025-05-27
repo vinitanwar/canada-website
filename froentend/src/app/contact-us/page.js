@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Banner from '../component/Banner'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-
+import Swal from 'sweetalert2';
 
 const page = () => {
 
@@ -48,6 +48,15 @@ const page = () => {
           },
         }
       );
+
+         await Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Your message has been sent successfully.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6',
+          });
+      
     
     } catch (error) {
       console.error("Error sending data:", error);

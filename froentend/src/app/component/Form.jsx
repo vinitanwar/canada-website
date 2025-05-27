@@ -10,13 +10,7 @@ const Form = () => {
 
 
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsVisible(true);
-  //   }, 5000); // 5 seconds delay
 
-  //   return () => clearTimeout(timer);
-  // }, []);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -29,7 +23,7 @@ const Form = () => {
     company_name: "",
     need_service: "",
     // userEmailsir:"Admin@canadawidetaxes.com"
-    userEmailsir:"jontypundir12@gmail.com"
+    userEmailsir:"admin@canadawidetaxes.com"
   });
 
   const [loader,setloader]=useState(false)

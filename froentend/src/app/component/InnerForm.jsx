@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, Briefcase, MessageCircle } from 'lucide-react';
 import axios from 'axios';
 import { baseurl } from './common';
-
+import Swal from 'sweetalert2';
 const InnerForm = ({setIsVisible,cancel=true,className="",titletop="Book a Free Consultation"}) => {
 
 
@@ -32,42 +32,64 @@ const InnerForm = ({setIsVisible,cancel=true,className="",titletop="Book a Free 
     });
   };
 
-  const handelsendqueery = async (e) => {
-    e.preventDefault();
-    setloader(true)
-    const formData = new URLSearchParams();
-    for (const key in userData) {
-      formData.append(key, userData[key]);
-    }
-  
-    try {
-      const response = await axios.post(
-        "https://sendingmail-3.onrender.com/sendmail",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-    
 
-     await axios.post(`${baseurl}/sendmessage`,formData)
-     setUserData({ S_name: "",
-    S_phone: "",
-    S_email: "",
-    company_name: "",
-    need_service: "",
-    userEmailsir:"Admin@canadawidetaxes.com"
-    
-})
-    } catch (error) {
-      console.error("Error sending data:", error);
-    }
-    setloader(false)
-    setIsVisible(false)
-  };
-  
+  const handelsendqueery = async (e) => {
+  e.preventDefault();
+  setloader(true);
+
+  const formData = new URLSearchParams();
+  for (const key in userData) {
+    formData.append(key, userData[key]);
+  }
+
+  try {
+    const response = await axios.post(
+      "https://sendingmail-3.onrender.com/sendmail",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    await axios.post(`${baseurl}/sendmessage`, formData);
+
+    // Show success alert
+    await Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: 'Your message has been sent successfully.',
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#3085d6',
+    });
+
+    // Reset form data
+    setUserData({
+      S_name: "",
+      S_email: "",
+      company_name: "",
+      need_service: "",
+      userEmailsir: "Admin@canadawidetaxes.com",
+    });
+
+  } catch (error) {
+    console.error("Error sending data:", error);
+
+    // Show error alert
+    await Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong! Please try again later.',
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#d33',
+    });
+  }
+
+  setloader(false);
+  setIsModalOpen(false);
+};
+
 
 
 
