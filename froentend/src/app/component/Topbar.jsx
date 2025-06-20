@@ -105,6 +105,7 @@ useEffect(()=>{
             <span>Client Profile</span>
           </Link>
 }
+<Link className='ml-4 bg-white text-orange-500 px-4 py-2 rounded-full flex items-center space-x-2 uppercase text-sm hover:bg-gray-100 transition' target='_blank' href={"https://book.squareup.com/appointments/mqvd83s0ekh6mr/location/LNC27B282CN6A/services"}>Book Now</Link> 
 
         </div>
         </div>
